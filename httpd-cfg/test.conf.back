@@ -1,0 +1,13 @@
+## ProxyPass "/testweb" "ajp://was-8009-tg.ora01000.com/testweb"
+## ProxyPass "/testweb" "ajp://172.30.189.56:8009/testweb"
+Header add Set-Cookie "ROUTEID=.%{BALANCER_WORKER_ROUTE}e; path=/" env=BALANCER_ROUTE_CHANGED
+<Proxy "balancer://cluster">
+#    BalancerMember "ajp://192.168.0.99:8009" route=1
+#    BalancerMember "ajp://192.168.0.98:8009" route=2
+#    ProxySet stickysession=ROUTEID
+#    BalancerMember "ajp://172.30.189.56:8009" route=1
+    BalancerMember "http://172.30.196.57:8080" route=1
+    ProxySet stickysession=ROUTEID
+</Proxy>
+ProxyPass "/testweb" "balancer://cluster/testweb"
+# ProxyPassReverse "/testweb" "balancer://cluster/testweb"
